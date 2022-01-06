@@ -3,7 +3,8 @@ import CheckHabit from "../components/CheckHabit";
 import HeaderTop from "../components/HeaderTop";
 import MenuFooter from "../components/MenuFooter";
 
-export default function TodayPage(){
+export default function TodayPage({userData}){
+  console.log(userData);
   return(
     <Today>
       <HeaderTop/>

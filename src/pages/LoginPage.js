@@ -1,20 +1,45 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom"; 
 
 import Logo from "../components/Logo";
 
-export default function LoginPage(){
+export default function LoginPage({setUserData}){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [stateForm, setStateForm] = useState("");
+  let navigate = useNavigate();
 
+  function handleLogin(e){
+    e.preventDefault();
+    setStateForm("true");
+
+    const promise = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
+      {
+        email: email,
+        password: password
+      });
+    promise.then((answer)=>{
+      setUserData(answer.data);
+      navigate("/hoje");
+    });
+    promise.catch(()=>{
+      toast.error("Falha no login!");
+      setStateForm("");
+    });
+
+  }
   return(
     <Login>
       <Logo type="main"/>
-      <form>
-        <input type="email" placeholder="email" value={email} onChange={e=> setEmail(e.target.value)} required/>
-        <input type="password" placeholder="senha" value={password} onChange={e=> setPassword(e.target.value)} required/>
-        <button type="submit">Entrar</button>
+      <form onSubmit={handleLogin}>
+        <input type="email" placeholder="email" value={email} onChange={e=> setEmail(e.target.value)} disabled={stateForm} required/>
+        <input type="password" placeholder="senha" value={password} onChange={e=> setPassword(e.target.value)} disabled={stateForm} required/>
+        <button type="submit" disabled={stateForm}>Entrar</button>
       </form>
       <Link to="/cadastro">
         <p>Não tem uma conta? Cadastre-se!</p>
@@ -66,6 +91,10 @@ const Login = styled.div`
       outline: 0;
     }
 
+    input:disabled{
+      background: #F2F2F2;
+    }
+
     button{
       width: 300px;
       height: 45px;
@@ -81,6 +110,10 @@ const Login = styled.div`
 
     button:hover{
       cursor:pointer;
+    }
+
+    button:disabled{
+      opacity: 0.7;
     }
   }
 

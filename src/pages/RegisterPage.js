@@ -1,16 +1,21 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom"; 
 
 import Logo from "../components/Logo";
 
 export default function RegisterPage(){
   const [form, setForm] = useState({
     email:"",
-    password:"",
     name:"",
-    photo:""
+    image:"",
+    password:""
   });
+  const [stateForm, setStateForm] = useState("");
+  let navigate = useNavigate();
 
   function handleInputForm(e,type){
     if(type==="email"){
@@ -20,26 +25,47 @@ export default function RegisterPage(){
     } else if(type==="name"){
       form.name= e.target.value;
     } else{
-      form.photo=e.target.value;
+      form.image=e.target.value;
     }
     setForm({...form});
   }
   
-  
+  function handleRegister(e){
+    e.preventDefault();
+    setStateForm("true");
+
+    const promise = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", 
+      form);
+
+    promise.then(()=>{
+      toast.success("Cadastro realizado com sucesso!");
+      navigate("/");
+    });
+
+    promise.catch(()=>{
+      setStateForm("");
+      toast.error("Falha no cadastro!");
+    });
+    
+    
+  }
 
   return(
     <Register>
       <Logo type="main"/>
-        <form>
-          <input type="email" placeholder="email" value={form.email} onChange={e=> handleInputForm(e,"email")} required/>
-          <input type="password" placeholder="senha" value={form.password} onChange={e=> handleInputForm(e,"password")} required/>
-          <input type="text" placeholder="nome" value={form.name} onChange={e=> handleInputForm(e,"name")} required/>
-          <input type="text" placeholder="foto" value={form.photo} onChange={e=> handleInputForm(e,"photo")} required/>
-          <button type="submit">Cadastrar</button>
+        <form onSubmit={handleRegister}>
+          <input 
+          type="email" placeholder="email" value={form.email} onChange={e=> handleInputForm(e,"email")} disabled={stateForm} required/>
+          <input type="password" placeholder="senha" value={form.password} onChange={e=> handleInputForm(e,"password")} disabled={stateForm} required/>
+          <input type="text" placeholder="nome" value={form.name} onChange={e=> handleInputForm(e,"name")} disabled={stateForm} required/>
+          <input type="text" placeholder="foto" value={form.image} onChange={e=> handleInputForm(e,"photo")} disabled={stateForm} required/>
+          <button type="submit" disabled={stateForm}>Cadastrar</button>
         </form>
         <Link to="/">
           <p>Já tem conta? Faça login!</p>
         </Link>
+        
     </Register> 
   );
 }
@@ -87,6 +113,10 @@ const Register = styled.div`
       outline: 0;
     }
 
+    input:disabled{
+      background: #F2F2F2;
+    }
+
     button{
       width: 300px;
       height: 45px;
@@ -98,11 +128,18 @@ const Register = styled.div`
 
       font-size: 21px;
       color: #FFFFFF;
+
+      opacity:1;
     }
 
     button:hover{
       cursor:pointer;
     }
+    
+    button:disabled{
+      opacity: 0.7;
+    }
+    
   }
 
   p{
