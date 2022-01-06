@@ -1,21 +1,28 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom"; 
 
-import Logo from "../components/Logo";
 
-export default function LoginPage({setUserData}){
+import Logo from "../components/Logo";
+import Loading from "../components/Loading";
+import UserContext from "../contexts/UserContext";
+
+export default function LoginPage(){
+  const { setUserData } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [stateForm, setStateForm] = useState("");
+  const [disabledForm, setDisabledForm] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
   let navigate = useNavigate();
 
   function handleLogin(e){
     e.preventDefault();
-    setStateForm("true");
+    setDisabledForm(true);
+    setLoadingState(true);
 
     const promise = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
@@ -29,7 +36,8 @@ export default function LoginPage({setUserData}){
     });
     promise.catch(()=>{
       toast.error("Falha no login!");
-      setStateForm("");
+      setDisabledForm(false);
+      setLoadingState(false);
     });
 
   }
@@ -37,9 +45,11 @@ export default function LoginPage({setUserData}){
     <Login>
       <Logo type="main"/>
       <form onSubmit={handleLogin}>
-        <input type="email" placeholder="email" value={email} onChange={e=> setEmail(e.target.value)} disabled={stateForm} required/>
-        <input type="password" placeholder="senha" value={password} onChange={e=> setPassword(e.target.value)} disabled={stateForm} required/>
-        <button type="submit" disabled={stateForm}>Entrar</button>
+        <input type="email" placeholder="email" value={email} onChange={e=> setEmail(e.target.value)} disabled={disabledForm} required/>
+        <input type="password" placeholder="senha" value={password} onChange={e=> setPassword(e.target.value)} disabled={disabledForm} required/>
+        <button type="submit" disabled={disabledForm}>
+          {loadingState ? <Loading width={100} height={15}/> : "Entar"}
+        </button>
       </form>
       <Link to="/cadastro">
         <p>Não tem uma conta? Cadastre-se!</p>

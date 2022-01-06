@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom"; 
 
 import Logo from "../components/Logo";
+import Loading from "../components/Loading";
 
 export default function RegisterPage(){
   const [form, setForm] = useState({
@@ -14,7 +15,8 @@ export default function RegisterPage(){
     image:"",
     password:""
   });
-  const [stateForm, setStateForm] = useState("");
+  const [disabledForm, setDisabledForm] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
   let navigate = useNavigate();
 
   function handleInputForm(e,type){
@@ -32,7 +34,8 @@ export default function RegisterPage(){
   
   function handleRegister(e){
     e.preventDefault();
-    setStateForm("true");
+    setDisabledForm(true);
+    setLoadingState(true);
 
     const promise = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", 
@@ -43,9 +46,11 @@ export default function RegisterPage(){
       navigate("/");
     });
 
-    promise.catch(()=>{
-      setStateForm("");
+    promise.catch((error)=>{
+      console.log(error.response.data);
+      setDisabledForm(false);
       toast.error("Falha no cadastro!");
+      setLoadingState(false);
     });
     
     
@@ -56,11 +61,13 @@ export default function RegisterPage(){
       <Logo type="main"/>
         <form onSubmit={handleRegister}>
           <input 
-          type="email" placeholder="email" value={form.email} onChange={e=> handleInputForm(e,"email")} disabled={stateForm} required/>
-          <input type="password" placeholder="senha" value={form.password} onChange={e=> handleInputForm(e,"password")} disabled={stateForm} required/>
-          <input type="text" placeholder="nome" value={form.name} onChange={e=> handleInputForm(e,"name")} disabled={stateForm} required/>
-          <input type="text" placeholder="foto" value={form.image} onChange={e=> handleInputForm(e,"photo")} disabled={stateForm} required/>
-          <button type="submit" disabled={stateForm}>Cadastrar</button>
+          type="email" placeholder="email" value={form.email} onChange={e=> handleInputForm(e,"email")} disabled={disabledForm} required/>
+          <input type="password" placeholder="senha" value={form.password} onChange={e=> handleInputForm(e,"password")} disabled={disabledForm} required/>
+          <input type="text" placeholder="nome" value={form.name} onChange={e=> handleInputForm(e,"name")} disabled={disabledForm} required/>
+          <input type="text" placeholder="foto" value={form.image} onChange={e=> handleInputForm(e,"photo")} disabled={disabledForm} required/>
+          <button type="submit" disabled={disabledForm}>
+            {loadingState ? <Loading width={100} height={15}/> : "Cadastrar"}
+          </button>
         </form>
         <Link to="/">
           <p>Já tem conta? Faça login!</p>
