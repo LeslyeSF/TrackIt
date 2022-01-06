@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
 
 import Logo from "../components/Logo";
 
 export default function LoginPage(){
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return(
     <Login>
       <Logo type="main"/>
       <form>
-        <input type="email" placeholder="email"/>
-        <input type="password" placeholder="senha"/>
-        <Link to="/habitos">
+        <input type="email" placeholder="email" value={email} onChange={e=> setEmail(e.target.value)} required/>
+        <input type="password" placeholder="senha" value={password} onChange={e=> setPassword(e.target.value)} required/>
         <button type="submit">Entrar</button>
-        </Link>
       </form>
       <Link to="/cadastro">
         <p>Não tem uma conta? Cadastre-se!</p>

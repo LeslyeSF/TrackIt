@@ -1,17 +1,40 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
 
 import Logo from "../components/Logo";
 
 export default function RegisterPage(){
+  const [form, setForm] = useState({
+    email:"",
+    password:"",
+    name:"",
+    photo:""
+  });
+
+  function handleInputForm(e,type){
+    if(type==="email"){
+      form.email= e.target.value;
+    }else if(type==="password"){
+      form.password=e.target.value;
+    } else if(type==="name"){
+      form.name= e.target.value;
+    } else{
+      form.photo=e.target.value;
+    }
+    setForm({...form});
+  }
+  
+  
+
   return(
     <Register>
       <Logo type="main"/>
         <form>
-          <input type="email" placeholder="email"/>
-          <input type="password" placeholder="senha"/>
-          <input type="text" placeholder="nome"/>
-          <input type="text" placeholder="foto"/>
+          <input type="email" placeholder="email" value={form.email} onChange={e=> handleInputForm(e,"email")} required/>
+          <input type="password" placeholder="senha" value={form.password} onChange={e=> handleInputForm(e,"password")} required/>
+          <input type="text" placeholder="nome" value={form.name} onChange={e=> handleInputForm(e,"name")} required/>
+          <input type="text" placeholder="foto" value={form.photo} onChange={e=> handleInputForm(e,"photo")} required/>
           <button type="submit">Cadastrar</button>
         </form>
         <Link to="/">
