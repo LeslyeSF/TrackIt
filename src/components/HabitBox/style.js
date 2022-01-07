@@ -25,20 +25,19 @@ const SectionDays = styled.div`
   gap: 4px;
 
   margin: 8px 0px 8px 0px;
+`;
+const Day = styled.div`
+  width: 30px;
+  height: 30px;
 
-  div{
-    width: 30px;
-    height: 30px;
+  background-color: ${props => props.selected ? "#CFCFCF":"#FFFFFF"};
 
-    background-color: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  border-radius: 5px;
 
-    border: 1px solid #D4D4D4;
-    border-radius: 5px;
-
-    font-size: 20px;
-    color: #DBDBDB;
-    text-align: center;
-  }
+  font-size: 20px;
+  color: ${props => props.selected ? "#FFFFFF":"#DBDBDB"};
+  text-align: center;
 `;
 
 const Trash = styled.div`
@@ -51,4 +50,4 @@ const Trash = styled.div`
   }
 `;
 
-export {Container, SectionDays, Trash};
+export {Container, SectionDays, Day, Trash};

@@ -1,11 +1,18 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function MenuFooter(){
   return(
     <BoxFooter>
-      <StyledLink>Hábitos</StyledLink>
-      <StyledLink>Histórico</StyledLink>
-
+      <Link to="/habitos">
+        <StyledLink>Hábitos</StyledLink>
+      </Link>
+      <Link to="/historico"> 
+        <StyledLink>Histórico</StyledLink>
+      </Link>
+      <Link to="/hoje"> 
+        <StyledLink>Hoje</StyledLink>
+      </Link>
     </BoxFooter>
   );
 }

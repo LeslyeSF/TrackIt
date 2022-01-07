@@ -1,4 +1,6 @@
-import { useContext } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 import CheckHabit from "../components/CheckHabit";
@@ -8,19 +10,59 @@ import UserContext from "../contexts/UserContext";
 
 export default function TodayPage(){
   const { userData } = useContext(UserContext);
-  console.log(userData);
+  
+  const [habits, setHabits] = useState([]);
+  const [listHabits, setlistHabits] = useState([]);
+  let navigate = useNavigate();
+  
+  useEffect(()=>{
+    const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",{
+      headers:{
+        "Authorization": `Bearer ${userData.token}`
+      }
+    });
+
+    promise.then((answer)=>{
+      setHabits(answer.data);
+    });
+
+    promise.catch((error)=>{
+      navigate("/");
+    });
+  },[]);
+
+  //if(habits.length !== 0){
+    
+  //} else{
+//    setlistHabits(
+  //  <TextInfo>
+    //  Você não tem nenhum hábito cadastrado para hoje!
+    //</TextInfo>);
+  //}
+
+
   return(
     <Today>
-      <HeaderTop/>
-      <Title habitCompleted={true}>
+      <HeaderTop imgProfile={userData.image}/>
+      <Title habitCompleted={false}>
         <p>Segunda, 17/05</p>
-        <p>Nenhum hábito concluído ainda</p>
+        {habits.length !== 0 ? <p>Nenhum hábito concluído ainda</p> :""}
       </Title>
       <SectionCheck>
-        <CheckHabit/>
-        <CheckHabit/>
-        <CheckHabit/>
+        {habits.map((data, index)=> 
+      <CheckHabit key={data.id}>
+        {index}
+        {data.id}
+        {data.name}
+        {data.done}
+        {data.currentSequence}
+        {data.highestSequence}
+        {habits}
+        {setHabits}
+      </CheckHabit>
+    )}
       </SectionCheck>
+      
       <MenuFooter/>
     </Today>
   );
@@ -58,4 +100,10 @@ const SectionCheck = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+`;
+const TextInfo = styled.p`
+  margin: 10px 0px 10px 0px;
+
+  font-size: 18px;
+  color: #666666;
 `;

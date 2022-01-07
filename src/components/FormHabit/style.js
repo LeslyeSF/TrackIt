@@ -34,6 +34,10 @@ const DivForm = styled.div`
     box-shadow: 0 0 0 0;
     outline: 0;
   }
+
+  input:disabled{
+    background: #F2F2F2;
+  }
 `;
 
 const SectionDays = styled.div`
@@ -41,20 +45,20 @@ const SectionDays = styled.div`
   gap: 4px;
 
   margin: 8px 0px 8px 0px;
+`;
 
-  div{
-    width: 30px;
-    height: 30px;
+const Day = styled.button`
+  width: 30px;
+  height: 30px;
 
-    background-color: #FFFFFF;
+  background-color: ${props => props.selected ? "#CFCFCF":"#FFFFFF"};
 
-    border: 1px solid #D4D4D4;
-    border-radius: 5px;
+  border: 1px solid #D4D4D4;
+  border-radius: 5px;
 
-    font-size: 20px;
-    color: #DBDBDB;
-    text-align: center;
-  }
+  font-size: 20px;
+  color: ${props => props.selected ? "#FFFFFF":"#DBDBDB"};
+  text-align: center;
 `;
 
 const Options = styled.div`
@@ -65,34 +69,41 @@ const Options = styled.div`
   bottom: 15px;
   right: 15px;
   
-  div{
+  button{
     width: 84px;
     height: 35px;
 
     border-radius: 5px;
+    border:0px;
 
     font-size: 16px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    opacity:1;
   }
 
-  div:nth-child(1){
+  button:nth-child(1){
     background-color: #FFFFFF;
 
     color: #52B6FF;
   }
 
-  div:nth-child(2){
+  button:nth-child(2){
     background-color: #52B6FF;
 
     color: #FFFFFF;
   }
 
-  div:hover{
+  button:hover{
     cursor: pointer;
+  }
+
+  button:disabled{
+    opacity: 0.7;
   }
 `;
 
-export {DivForm, SectionDays, Options};
+export {DivForm, SectionDays, Day, Options};

@@ -1,14 +1,54 @@
+import axios from "axios";
+import { useContext } from "react";
+import { toast } from "react-toastify";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 
-export default function CheckHabit(){
+export default function CheckHabit(props){
+  const [index,id, name, done, currentSequence, highestSequence, habits, setHabits] = props.children;
+  const { userData } = useContext(UserContext);
+
+  function Check(){
+    if(done){
+      const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,{
+        headers:{
+          "Authorization": `Bearer ${userData.token}`
+        }
+      });
+      promise.then(()=>{
+        habits[index].done = false;
+        setHabits([...habits]);
+      });
+      promise.catch((erro)=>{
+        toast.error("Falha ao fazer a checagem");
+        console.log(erro.response);
+      });
+    }else{
+      const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,{
+        headers:{
+          "Authorization": `Bearer ${userData.token}`
+        }
+      });
+      promise.then(()=>{
+        habits[index].done = true;
+        setHabits([...habits]);
+      });
+      promise.catch((erro)=>{
+        toast.error("Falha ao fazer a checagem");
+        console.log(erro.response);
+        console.log(id);
+      });
+    }
+
+  }
   return(
     <Container>
-      <p>Ler 1 capítulo de livro</p>
-      <Info>
-        <p>Sequência atual: 4 dias</p>
-        <p>Seu recorde: 5 dias</p>
+      <p>{name}</p>
+      <Info current={currentSequence} highest={highestSequence}>
+        <p>Sequência atual: {currentSequence} dia(s)</p>
+        <p>Seu recorde: {highestSequence} dia(s)</p>
       </Info>
-      <BoxCheck>
+      <BoxCheck done={done} onClick={Check}>
         <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M29.5686 0.956629C30.1694 0.350274 30.9857 0.00637472 31.8392 8.77323e-05C32.6928 -0.00619925 33.5141 0.325638 34.1237 0.923077C34.7333 1.52052 35.0816 2.33498 35.0926 3.18846C35.1035 4.04195 34.7761 4.86506 34.182 5.4779L16.9915 26.9682C16.6962 27.2862 16.3398 27.5413 15.9437 27.7185C15.5476 27.8957 15.1198 27.9912 14.6859 27.9994C14.252 28.0076 13.821 27.9283 13.4184 27.7662C13.0159 27.6041 12.6502 27.3625 12.3431 27.0559L0.945601 15.6628C0.339937 15.0569 -0.000205509 14.2351 9.31541e-08 13.3784C0.000205695 12.5216 0.340743 11.7001 0.946698 11.0944C1.55265 10.4887 2.37439 10.1486 3.23113 10.1488C4.08788 10.149 4.90945 10.4895 5.51511 11.0955L14.5292 20.1117L29.4831 1.05749C29.5103 1.02282 29.5396 0.989868 29.5708 0.958822L29.5686 0.956629Z" fill="white"/>
         </svg>
@@ -41,6 +81,10 @@ const Info = styled.div`
   font-size: 13px;
 
   line-height: 16px;
+
+  span{
+    color:${props => (props.highest <= props.current)? "#8FC549" : "#666666"} ;
+  }
 `;
 
 const BoxCheck = styled.div`
@@ -49,7 +93,7 @@ const BoxCheck = styled.div`
 
   border-radius: 5px;
 
-  background-color: #8FC549;
+  background-color: ${props => props.done ? "#8FC549":"#EBEBEB"};
 
   position: absolute;
   top: 13px;
