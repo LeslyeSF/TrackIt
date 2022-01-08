@@ -9,11 +9,23 @@ import MenuFooter from "../components/MenuFooter";
 import UserContext from "../contexts/UserContext";
 
 export default function TodayPage(){
-  const { userData } = useContext(UserContext);
+  const { userData, dailyPercentage, setDailyPercentage } = useContext(UserContext);
   
   const [habits, setHabits] = useState([]);
-  const [listHabits, setlistHabits] = useState([]);
   let navigate = useNavigate();
+
+  let percentage = habits.length;
+  if(percentage !== 0){
+    let count = 0;
+    percentage = 100/percentage;
+    for(let i = 0; i<habits.length; i++){
+      if(habits[i].done){
+        count++;
+      }
+    }
+    percentage = percentage*count;
+    setDailyPercentage(percentage);
+  }
   
   useEffect(()=>{
     const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",{
@@ -30,16 +42,9 @@ export default function TodayPage(){
       navigate("/");
     });
   },[]);
-
-  //if(habits.length !== 0){
-    
-  //} else{
-//    setlistHabits(
-  //  <TextInfo>
-    //  Você não tem nenhum hábito cadastrado para hoje!
-    //</TextInfo>);
-  //}
-
+  
+  
+ 
 
   return(
     <Today>

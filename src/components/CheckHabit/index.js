@@ -9,36 +9,31 @@ export default function CheckHabit(props){
   const { userData } = useContext(UserContext);
 
   function Check(){
+    let promise;
     if(done){
-      const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,{
+      promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,{},{
         headers:{
           "Authorization": `Bearer ${userData.token}`
         }
       });
-      promise.then(()=>{
-        habits[index].done = false;
-        setHabits([...habits]);
-      });
-      promise.catch((erro)=>{
-        toast.error("Falha ao fazer a checagem");
-        console.log(erro.response);
-      });
-    }else{
-      const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,{
+
+    } else{
+      promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,{},{
         headers:{
           "Authorization": `Bearer ${userData.token}`
         }
-      });
-      promise.then(()=>{
-        habits[index].done = true;
-        setHabits([...habits]);
-      });
-      promise.catch((erro)=>{
-        toast.error("Falha ao fazer a checagem");
-        console.log(erro.response);
-        console.log(id);
       });
     }
+
+
+      promise.then(()=>{
+        habits[index].done = !(habits[index].done);
+        setHabits([...habits]);
+      });
+      promise.catch((erro)=>{
+        toast.error("Falha ao fazer a checagem");
+      });
+    
 
   }
   return(

@@ -12,9 +12,10 @@ import UserContext from "./contexts/UserContext";
 
 export default function App(){
   const [userData, setUserData] = useState("");
+  const [dailyPercentage, setDailyPercentage] = useState(0);
   
   return(
-    <UserContext.Provider value={{userData, setUserData}}>
+    <UserContext.Provider value={{userData, setUserData, dailyPercentage, setDailyPercentage}}>
       <GlobalStyle/>
       <ToastContainer/>
       <BrowserRouter>

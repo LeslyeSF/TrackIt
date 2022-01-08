@@ -1,21 +1,4 @@
 import styled from "styled-components";
-import HeaderTop from "../components/HeaderTop";
-import MenuFooter from "../components/MenuFooter";
-
-export default function HistoryPage(){
-  return(
-    <History>
-      <HeaderTop/>
-      <Title>
-        <p>Histórico</p>
-      </Title>
-      <TextInfo>
-        Em breve você poderá ver o histórico dos seus hábitos aqui!
-      </TextInfo>
-      <MenuFooter/>
-    </History>
-  );
-}
 const History = styled.div`
   width: 375px;
   min-height: 100%;
@@ -42,3 +25,4 @@ const TextInfo = styled.p`
   font-size: 18px;
   color: #666666;
 `;
+export {History, Title, TextInfo};
