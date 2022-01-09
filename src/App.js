@@ -1,6 +1,6 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import GlobalStyle from "./styles";
 import HabitsPage from "./pages/HabitsPage";
@@ -13,9 +13,10 @@ import UserContext from "./contexts/UserContext";
 export default function App(){
   const [userData, setUserData] = useState("");
   const [dailyPercentage, setDailyPercentage] = useState(0);
-  
+  const [formBackup, setFormBackup] = useState("");
+
   return(
-    <UserContext.Provider value={{userData, setUserData, dailyPercentage, setDailyPercentage}}>
+    <UserContext.Provider value={{userData, setUserData, dailyPercentage, setDailyPercentage, formBackup, setFormBackup}}>
       <GlobalStyle/>
       <ToastContainer/>
       <BrowserRouter>

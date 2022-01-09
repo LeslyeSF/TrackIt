@@ -39,9 +39,9 @@ export default function CheckHabit(props){
   return(
     <Container>
       <p>{name}</p>
-      <Info current={currentSequence} highest={highestSequence}>
-        <p>Sequência atual: {currentSequence} dia(s)</p>
-        <p>Seu recorde: {highestSequence} dia(s)</p>
+      <Info done={done} currentSequence={currentSequence} highestSequence={highestSequence}>
+        <p>Sequência atual: <span>{currentSequence} dia(s)</span></p>
+        <p>Seu recorde: <span>{highestSequence} dia(s)</span></p>
       </Info>
       <BoxCheck done={done} onClick={Check}>
         <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,8 +77,15 @@ const Info = styled.div`
 
   line-height: 16px;
 
-  span{
-    color:${props => (props.highest <= props.current)? "#8FC549" : "#666666"} ;
+  p:nth-child(1){
+    span{
+      color:${props => (props.done) ? "#8FC549" : "#666666"} ;
+    }
+  }
+  p:nth-child(2){
+    span{
+      color:${props => (props.highestSequence === props.currentSequence) ? "#8FC549" : "#666666"} ;
+    }
   }
 `;
 

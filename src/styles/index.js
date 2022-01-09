@@ -1,3 +1,4 @@
+import 'react-calendar/dist/Calendar.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-circular-progressbar/dist/styles.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";

@@ -8,15 +8,16 @@ import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 
 export default function FormHabit({showForm, setShowForm, Request}){
-  const { userData } = useContext(UserContext);
+  const { userData, formBackup, setFormBackup } = useContext(UserContext);
 
-  const [ nameHabit, setNameHabiit ] = useState("");
+  const [ nameHabit, setNameHabiit ] = useState(formBackup);
   const [ listDays, setListDays ] = useState(dataDays);
   const [ disabledForm, setDisabledForm ] = useState(false);
   const [ loading, setLoading ] = useState(false);
   
   function handleShowForm(){
     if(showForm){
+      setFormBackup(nameHabit);
       setShowForm(!showForm);
     }
   }
@@ -55,11 +56,12 @@ export default function FormHabit({showForm, setShowForm, Request}){
           listDays[i].selected=false;
         }
         setListDays([...listDays]);
+        setFormBackup("");
         Request();
       });
 
       promise.catch((error)=>{
-        toast.error("Cadastro deu errado!");
+        toast.error("Cadastro deu errado! Erro: "+error.response);
         setDisabledForm(false);
         setLoading(false);
       });
@@ -68,7 +70,7 @@ export default function FormHabit({showForm, setShowForm, Request}){
   }
 
   function handleSelect(day){
-    listDays[day-1].selected = !(listDays[day-1].selected);
+    listDays[day].selected = !(listDays[day].selected);
     setListDays([...listDays]);
   }
 

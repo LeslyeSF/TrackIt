@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import styled from "styled-components";
 import { useContext } from "react";
+
+import {BoxFooter, StyledLink} from "./style";
 import UserContext from "../../contexts/UserContext";
 
 export default function MenuFooter(){
@@ -9,10 +10,9 @@ export default function MenuFooter(){
   return(
     <BoxFooter>
       <Link to="/habitos">
-        <StyledLink>Hábitos</StyledLink>
-      </Link>
-      <Link to="/historico"> 
-        <StyledLink>Histórico</StyledLink>
+        <StyledLink>
+          <p>Hábitos</p>
+        </StyledLink>
       </Link>
       <div>
         <Link to="/hoje"> 
@@ -30,35 +30,10 @@ export default function MenuFooter(){
         />
         </Link>
       </div>
-      
+      <Link to="/historico"> 
+        <StyledLink>Histórico</StyledLink>
+      </Link>     
     </BoxFooter>
   );
 }
 
-const BoxFooter = styled.div`
-  width: 100%;
-  height: 70px;
-
-  background-color: #FFFFFF;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  
-
-  position: fixed;
-  bottom:0;
-  z-index: 5;
-
-  text-decoration: none;
-
-  div{
-    width:91px;
-    height:91px;
-  }
-`;
-const StyledLink = styled.div`
-  font-size:18px;
-  color: #52B6FF;
-
-`;

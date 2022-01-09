@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom"; 
@@ -10,13 +10,27 @@ import Loading from "../../components/Loading";
 import UserContext from "../../contexts/UserContext";
 
 export default function LoginPage(){
-  const { setUserData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabledForm, setDisabledForm] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   let navigate = useNavigate();
+
+
+  useEffect(()=>{
+    const tokenLocalStorage = localStorage.getItem("trackitToken");
+    if(tokenLocalStorage !== null){
+      const user = {
+        name: localStorage.getItem("trackitName"),
+        image: localStorage.getItem("trackitImage"),
+        token: localStorage.getItem("trackitToken")
+      }
+      setUserData(user);
+      navigate("/hoje");
+    }
+  },[]);
 
   function handleLogin(e){
     e.preventDefault();
@@ -30,7 +44,16 @@ export default function LoginPage(){
         password: password
       });
     promise.then((answer)=>{
-      setUserData(answer.data);
+      const user = {
+        name: answer.data.name,
+        image: answer.data.image,
+        token: answer.data.token
+      }
+      localStorage.setItem("trackitName", user.name);
+      localStorage.setItem("trackitImage", user.image);
+      localStorage.setItem("trackitToken", user.token);
+      setUserData(user);
+
       navigate("/hoje");
     });
     promise.catch(()=>{

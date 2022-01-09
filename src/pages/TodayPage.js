@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import dayjs from 'dayjs';
 
 import CheckHabit from "../components/CheckHabit";
 import HeaderTop from "../components/HeaderTop";
@@ -12,6 +13,7 @@ export default function TodayPage(){
   const { userData, dailyPercentage, setDailyPercentage } = useContext(UserContext);
   
   const [habits, setHabits] = useState([]);
+  let nameDay;
   let navigate = useNavigate();
 
   let percentage = habits.length;
@@ -43,6 +45,38 @@ export default function TodayPage(){
     });
   },[]);
   
+  switch (dayjs().day()) {
+    case 1:
+      nameDay= "Segunda";
+      break;
+
+    case 2:
+      nameDay= "Terça";
+      break;
+
+    case 3:
+      nameDay= "Quarta";
+      break;
+
+    case 4:
+      nameDay= "Quinta";
+      break;
+
+    case 5:
+      nameDay= "Sexta";
+      break;
+
+    case 6:
+      nameDay= "Sábado";
+      break;
+
+    case 0:
+      nameDay= "Domingo";
+      break;
+  
+    default:
+      break;
+  }
   
  
 
@@ -50,22 +84,26 @@ export default function TodayPage(){
     <Today>
       <HeaderTop imgProfile={userData.image}/>
       <Title habitCompleted={false}>
-        <p>Segunda, 17/05</p>
-        {habits.length !== 0 ? <p>Nenhum hábito concluído ainda</p> :""}
+        <p>{nameDay}, {dayjs().date()}/{dayjs().month() + 1}</p>
+        {habits.length === 0 ? 
+        <p>Você não tem nenhum hábito para hoje</p> : 
+        dailyPercentage === 0 ?
+        <p>Nenhum hábito concluído ainda</p> : 
+        <p>{dailyPercentage.toFixed(0)}% dos hábitos concluídos</p>}
       </Title>
       <SectionCheck>
         {habits.map((data, index)=> 
-      <CheckHabit key={data.id}>
-        {index}
-        {data.id}
-        {data.name}
-        {data.done}
-        {data.currentSequence}
-        {data.highestSequence}
-        {habits}
-        {setHabits}
-      </CheckHabit>
-    )}
+          <CheckHabit key={data.id}>
+            {index}
+            {data.id}
+            {data.name}
+            {data.done}
+            {data.currentSequence}
+            {data.highestSequence}
+            {habits}
+            {setHabits}
+          </CheckHabit>
+        )}
       </SectionCheck>
       
       <MenuFooter/>

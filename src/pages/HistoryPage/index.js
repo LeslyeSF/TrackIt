@@ -1,17 +1,20 @@
+import { useContext } from "react";
+import Calendar from 'react-calendar'
+
 import HeaderTop from "../../components/HeaderTop";
 import MenuFooter from "../../components/MenuFooter";
+import UserContext from "../../contexts/UserContext";
 import { History, Title, TextInfo } from "./style";
 
 export default function HistoryPage(){
+  const {userData} = useContext(UserContext);
   return(
     <History>
-      <HeaderTop/>
+      <HeaderTop imgProfile={userData.image}/>
       <Title>
         <p>Histórico</p>
       </Title>
-      <TextInfo>
-        Em breve você poderá ver o histórico dos seus hábitos aqui!
-      </TextInfo>
+      <Calendar/>
       <MenuFooter/>
     </History>
   );

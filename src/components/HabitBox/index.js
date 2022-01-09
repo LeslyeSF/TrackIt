@@ -9,13 +9,13 @@ import { Container, SectionDays, Day, Trash } from "./style";
 export default function HabitBox({id, name, days, Request}){
   const { userData } = useContext(UserContext);
   let list = [
-    {day:1, name:"D", selected:false},
-    {day:2, name:"S", selected:false},
-    {day:3, name:"T", selected:false},
+    {day:0, name:"D", selected:false},
+    {day:1, name:"S", selected:false},
+    {day:2, name:"T", selected:false},
+    {day:3, name:"Q", selected:false},
     {day:4, name:"Q", selected:false},
-    {day:5, name:"Q", selected:false},
+    {day:5, name:"S", selected:false},
     {day:6, name:"S", selected:false},
-    {day:7, name:"S", selected:false},
   ];
 
   for(let i =0; i<list.length; i++){
