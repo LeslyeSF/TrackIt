@@ -57,7 +57,7 @@ export default function CheckHabit(props){
         <p>Sequência atual: <span>{currentSequence} dia(s)</span></p>
         <p>Seu recorde: 
           <span>
-            {(currentSequence>highestSequence)? " "+highestSequence+1 : " "+highestSequence} dia(s)
+            {(currentSequence>highestSequence)? " "+(highestSequence+1) : " "+highestSequence} dia(s)
           </span>
         </p>
       </Info>

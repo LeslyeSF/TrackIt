@@ -68,7 +68,12 @@ export default function HabitsPage(){
         <button type="button" onClick={handleShowForm}>+</button>
       </MyHabits>
 
-      {showForm ? <FormHabit showForm={showForm} setShowForm={setShowForm} Request={Request}/>:""}
+      {showForm ? 
+      <FormHabit 
+      showForm={showForm} 
+      setShowForm={setShowForm} 
+      Request={Request}/>:
+      ""}
       {loading ? <Loading width={100} height={15}/> : listHabits}
       
       <MenuFooter/>
