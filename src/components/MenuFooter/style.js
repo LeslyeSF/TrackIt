@@ -33,5 +33,9 @@ const StyledLink = styled.button`
 
   text-decoration:none;
 
+  &:hover{
+    cursor:pointer;
+  }
+
 `;
 export {BoxFooter, StyledLink};
