@@ -6,7 +6,15 @@ import {Container, Info, BoxCheck} from "./style";
 import UserContext from "../../contexts/UserContext";
 
 export default function CheckHabit(props){
-  const [index,id, name, done, currentSequence, highestSequence, habits, setHabits] = props.children;
+  const [
+    index,
+    id, 
+    name, 
+    done, 
+    currentSequence, 
+    highestSequence, 
+    habits, 
+    setHabits] = props.children;
   const { userData } = useContext(UserContext);
 
   function Check(){
@@ -27,14 +35,19 @@ export default function CheckHabit(props){
     }
 
 
-      promise.then(()=>{
-        habits[index].done = !(habits[index].done);
-        setHabits([...habits]);
-      });
-      promise.catch((erro)=>{
-        toast.error("Falha ao fazer a checagem");
-      });
-    
+    promise.then(()=>{
+      habits[index].done = !(habits[index].done);
+
+      habits[index].done ? 
+      habits[index].currentSequence = habits[index].currentSequence+1 :
+      habits[index].currentSequence = habits[index].currentSequence-1;
+
+      setHabits([...habits]);
+    });
+
+    promise.catch(()=>{
+      toast.error("Falha ao fazer a checagem");
+    });
 
   }
   return(
@@ -42,7 +55,11 @@ export default function CheckHabit(props){
       <p>{name}</p>
       <Info done={done} currentSequence={currentSequence} highestSequence={highestSequence}>
         <p>Sequência atual: <span>{currentSequence} dia(s)</span></p>
-        <p>Seu recorde: <span>{highestSequence} dia(s)</span></p>
+        <p>Seu recorde: 
+          <span>
+            {(currentSequence>highestSequence)? " "+highestSequence+1 : " "+highestSequence} dia(s)
+          </span>
+        </p>
       </Info>
       <BoxCheck done={done} onClick={Check}>
         <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">

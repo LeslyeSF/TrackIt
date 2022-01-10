@@ -27,31 +27,31 @@ export default function HabitBox({id, name, days, Request}){
   }
 
   function handleDelete(){
-    const confirm = prompt("Deseja deletar esse habito?(y/n)");
-    if(confirm =="y"){
+    const confirm = window.confirm("Deseja deletar esse habito?");
+    if(confirm){
       const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,{
-      headers:{
-        "Authorization": `Bearer ${userData.token}`
-      }
-    });
-    promise.then(()=>{
-      toast.success("Habito deletado com sucesso!");
-      Request();
-    });
-    promise.catch((erro)=>{
-      toast.error("Falha ao deletar habito");
-      console.log(erro.response);
-    });
+        headers:{
+          "Authorization": `Bearer ${userData.token}`
+        }
+       });
+        promise.then(()=>{
+          toast.success("Habito deletado com sucesso!");
+          Request();
+        });
+    
+        promise.catch((erro)=>{
+          toast.error("Falha ao deletar habito. Erro: "+erro.response.data.message);
+        });
     }
-    
-    
   }
   
   return(
     <Container>
       <p>{name}</p>
       <SectionDays>
-        {list.map((data)=> <Day key={data.day} selected={data.selected}>{data.name}</Day>)}
+        {list.map((data)=> 
+        <Day key={data.day} selected={data.selected}>{data.name}</Day>
+        )}
       </SectionDays>
       <Trash onClick={handleDelete}>
         <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">

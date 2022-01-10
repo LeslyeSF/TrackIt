@@ -10,7 +10,7 @@ import Loading from "../../components/Loading";
 import UserContext from "../../contexts/UserContext";
 
 export default function LoginPage(){
-  const { userData, setUserData } = useContext(UserContext);
+  const { setUserData } = useContext(UserContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,6 +43,7 @@ export default function LoginPage(){
         email: email,
         password: password
       });
+
     promise.then((answer)=>{
       const user = {
         name: answer.data.name,
@@ -56,6 +57,7 @@ export default function LoginPage(){
 
       navigate("/hoje");
     });
+
     promise.catch(()=>{
       toast.error("Falha no login!");
       setDisabledForm(false);
@@ -63,12 +65,26 @@ export default function LoginPage(){
     });
 
   }
+
   return(
     <Login>
       <Logo type="main"/>
       <form onSubmit={handleLogin}>
-        <input type="email" placeholder="email" value={email} onChange={e=> setEmail(e.target.value)} disabled={disabledForm} required/>
-        <input type="password" placeholder="senha" value={password} onChange={e=> setPassword(e.target.value)} disabled={disabledForm} required/>
+        <input 
+        type="email" 
+        placeholder="email" 
+        value={email} 
+        onChange={e=> setEmail(e.target.value)} d
+        isabled={disabledForm} 
+        required/>
+        <input 
+        type="password" 
+        placeholder="senha" 
+        value={password} 
+        onChange={e=> setPassword(e.target.value)} 
+        disabled={disabledForm} 
+        required/>
+        
         <button type="submit" disabled={disabledForm}>
           {loadingState ? <Loading width={100} height={15}/> : "Entar"}
         </button>

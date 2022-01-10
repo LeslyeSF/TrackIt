@@ -53,7 +53,6 @@ export default function RegisterPage(){
       setLoadingState(false);
     });
     
-    
   }
 
   return(
@@ -61,10 +60,37 @@ export default function RegisterPage(){
       <Logo type="main"/>
         <form onSubmit={handleRegister}>
           <input 
-          type="email" placeholder="email" value={form.email} onChange={e=> handleInputForm(e,"email")} disabled={disabledForm} required/>
-          <input type="password" placeholder="senha" value={form.password} onChange={e=> handleInputForm(e,"password")} disabled={disabledForm} required/>
-          <input type="text" placeholder="nome" value={form.name} onChange={e=> handleInputForm(e,"name")} disabled={disabledForm} required/>
-          <input type="text" placeholder="foto" value={form.image} onChange={e=> handleInputForm(e,"photo")} disabled={disabledForm} required/>
+          type="email" 
+          placeholder="email" 
+          value={form.email} 
+          onChange={e=> handleInputForm(e,"email")} 
+          disabled={disabledForm} 
+          required/>
+
+          <input 
+          type="password" 
+          placeholder="senha" 
+          value={form.password} 
+          onChange={e=> handleInputForm(e,"password")} 
+          disabled={disabledForm} 
+          required/>
+
+          <input 
+          type="text" 
+          placeholder="nome" 
+          value={form.name} 
+          onChange={e=> handleInputForm(e,"name")} 
+          disabled={disabledForm} 
+          required/>
+
+          <input 
+          type="text" 
+          placeholder="foto" 
+          value={form.image} 
+          onChange={e=> handleInputForm(e,"photo")} 
+          disabled={disabledForm} 
+          required/>
+          
           <button type="submit" disabled={disabledForm}>
             {loadingState ? <Loading width={100} height={15}/> : "Cadastrar"}
           </button>

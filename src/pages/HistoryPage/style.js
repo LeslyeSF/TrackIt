@@ -19,10 +19,4 @@ const Title = styled.div`
   color: #126BA5;
 
 `;
-const TextInfo = styled.p`
-  margin: 10px 0px 10px 0px;
-
-  font-size: 18px;
-  color: #666666;
-`;
-export {History, Title, TextInfo};
+export {History, Title};

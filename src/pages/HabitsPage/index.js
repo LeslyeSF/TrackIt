@@ -62,9 +62,7 @@ export default function HabitsPage(){
   
   return(
     <Habits>
-
       <HeaderTop imgProfile={userData.image}/>
-
       <MyHabits>
         <p>Meus hábitos</p>
         <button type="button" onClick={handleShowForm}>+</button>

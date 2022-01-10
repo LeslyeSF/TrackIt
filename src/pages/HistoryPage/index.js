@@ -7,7 +7,7 @@ import CalendarHistory from "../../components/CalendarHistory";
 import HeaderTop from "../../components/HeaderTop";
 import MenuFooter from "../../components/MenuFooter";
 import UserContext from "../../contexts/UserContext";
-import { History, Title, TextInfo } from "./style";
+import { History, Title } from "./style";
 
 export default function HistoryPage(){
   const {userData} = useContext(UserContext);
@@ -16,7 +16,6 @@ export default function HistoryPage(){
   let navigate = useNavigate();
 
   useEffect(()=>{
-
     const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily",{
       headers:{
         "Authorization": `Bearer ${userData.token}`
@@ -31,6 +30,7 @@ export default function HistoryPage(){
       toast.error("Erro ao carregar historico de habitos!");
       navigate("/");
     });
+    
   },[]);
 
   return(
